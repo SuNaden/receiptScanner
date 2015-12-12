@@ -96,11 +96,13 @@ body {
   padding: 6px;
 }
 
-
 .btn-lefttop {
   float: right;
 }
 
+.btn-margin {
+  margin: 7px;
+}
 
 /*
  * Placeholder dashboard ideas

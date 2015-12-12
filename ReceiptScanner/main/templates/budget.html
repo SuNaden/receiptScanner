@@ -18,7 +18,7 @@
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/budget.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -68,19 +68,43 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid ">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">History <span class="sr-only">(current)</span></a></li>
-            <li><a href="budget.html">Budget</a></li>
+            <li><a href="base.html">History <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="budget.html">Budget</a></li>
             <li><a href="statistics.html">Statistics</a></li>
           </ul>
-        </div>     
-          
-          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <img src="img/hue2.jpg">
-          <h2 class="sub-header">My past shoppings</h2>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="sub-padding">Budget for December  <a href="base.html" class="hey">view previous months</a></h1>
+          <div class="col-md-4">
+          <h2 style="text-align:left;font-size:60px;padding-top:30px;">26</h2>
+          <h2 style="text-align:left;font-size:16px;color:gray;font-weight:300;">number of shoppings this month</h2>
+          </div>
+          <div class="col-md-4">
+          <h2 style="text-align:center;font-size:60px;padding-top:30px;">£380</h2>
+          <h2 style="text-align:center;font-size:16px;color:gray;font-weight:300;">is left from your monthly budget of £560</h2>
+          </div>
+          <div class="col-md-4 numwrapper">
+          <h2 style="text-align:right;font-size:60px;padding-top:30px;">426</h2>
+          <h2 style="text-align:right;font-size:16px;color:gray;font-weight:300;">total items bought this month</h2>
+          </div>
+          <div>
+            <div style="display:inline-block;">
+              <p><b>£0</b></p>
+            </div>
+            <div style="float:right;">
+              <p><b>£560</b></p>
+            </div>
+          </div>
+          <div class="progress budget-bar col-md-12" style="display:inline-block; margin-bottom:60px;">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 67%;">
+              <span class="sr-only">67% Complete</span>
+            </div>
+          </div>
+          <h3>Monthly shopping</h3>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

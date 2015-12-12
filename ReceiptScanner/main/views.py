@@ -47,3 +47,4 @@ class RegisterView(TemplateView):
       self.form = RegisterForm()
       return render(request, self.template_name, self.get_context_data())
 
+
