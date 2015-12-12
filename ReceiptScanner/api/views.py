@@ -5,6 +5,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from api.models import Receipt
 from decimal import Decimal
+from django.contrib.auth import authenticate
 
 import subprocess, re
 
@@ -53,7 +54,7 @@ class Upload(views.APIView):
 
 class Login(views.APIView):
   def post(self, request):
-    user = authenticate(username = request.GET.get('username'), password = request.GET.get('password'))
+    user = authenticate(username = request.POST.get('username'), password = request.POST.get('password'))
     if user is not None:
         # the password verified for the user
         if user.is_active:
