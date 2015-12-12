@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,6 +52,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'ReceiptScanner.urls'
+
+# URL of the login page.
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {

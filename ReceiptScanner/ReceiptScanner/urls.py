@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from ReceiptScanner.forms import LoginForm
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^main', include(main.urls)),
+    url(r'^main', views.HomeView.as_view()),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'main/signin.html', 'authentication_form': LoginForm}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout_then_login'),
 ]
