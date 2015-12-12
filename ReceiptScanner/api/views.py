@@ -26,4 +26,18 @@ class Upload(views.APIView):
     print(prices_file_ocr)
 
     return Response(status=204)
+
+class Login(views.APIView):
+  def post(self, request):
+    user = authenticate(username = request.GET.get('username'), password = request.GET.get('password'))
+    if user is not None:
+        # the password verified for the user
+        if user.is_active:
+            return Response(status = 200)
+        else:
+            return Response(status = 401)
+    else:
+        # the authentication system was unable to verify the username and password
+        return Response(status = 401)
+
   

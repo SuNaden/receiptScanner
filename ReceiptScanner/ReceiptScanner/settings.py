@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# URL of the login page.
+LOGIN_URL = '/main/login/'
+
 
 # Application definition
 
