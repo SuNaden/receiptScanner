@@ -10,10 +10,6 @@ from django.contrib.auth import authenticate
 
 class Home(TemplateView):
   template_name = "main/home.html"
-
-  @method_decorator(login_required)
-  def dispatch(self, *args, **kwargs):
-    return super(HomeView, self).dispatch(*args, **kwargs)
   
   @method_decorator(login_required)
   def get(self, request):
