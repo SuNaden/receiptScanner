@@ -6,8 +6,10 @@
 
 {% block content %}
 
+{% load staticfiles %}
+
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-  <img src="img/hue2.jpg">
+  <img src="{% static "main/img/hue2.jpg" %}">
   <h2 class="sub-header">My past shoppings</h2>
   <div class="table-responsive">
     <table class="table table-striped">
@@ -50,5 +52,16 @@
     </table>
   </div>
 </div>
+
+ <script src="//js.pusher.com/3.0/pusher.min.js" type="text/javascript"></script>
+
+ <script type="text/javascript">
+  var pusher = new Pusher("0eb2780d9a8a875c0727"); 
+  var channel = pusher.subscribe('receipt_channel'); 
+  channel.bind('new_receipt', function(data) {
+    alert(data); 
+});
+ </script>
+
 
 {% endblock %}

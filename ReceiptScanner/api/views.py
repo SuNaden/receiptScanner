@@ -12,13 +12,15 @@ from django.contrib.auth.decorators import login_required
 
 
 import subprocess, re
-
+from pusher import Pusher
 
 # Create your views here.
 class Upload(views.APIView):
   parser_classes = (FormParser, MultiPartParser,)
 
   def put(self, request, filename="image.png", format=None):
+    pusher = Pusher(app_id=u'160687', key=u'0eb2780d9a8a875c0727', secret=u'b45f1f052cd3359c9ceb')
+
     username = request.data['username']
     names_file = request.data['names_file']
     prices_file = request.data['prices_file']
@@ -27,7 +29,7 @@ class Upload(views.APIView):
     new_receipt = user.receipt_set.create(
       names_image = names_file, 
       prices_image = prices_file
-      )
+    )
 
     p1 = subprocess.Popen(['tesseract', new_receipt.names_image.path, 'stdout', '-psm', '6'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     names_file_ocr = p1.communicate()[0]
@@ -53,6 +55,8 @@ class Upload(views.APIView):
           name = name,
           price = Decimal(non_decimal.sub('', price))
         )
+
+        pusher.trigger(u'receipt_channel', u'new_receipt', { "test": "testdata" })
 
     return Response(status=204)
 
