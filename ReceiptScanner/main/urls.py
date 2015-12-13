@@ -8,4 +8,10 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login'),
     url(r'^register/$', views.RegisterView.as_view()),
     url(r'^budget/$', views.BudgetView.as_view()),
+    url(r'^budget/budget$', views.BudgetView.as_view()),
+    url(r'^statistics/$', views.StatisticsView.as_view()),
+    url(r'^budget/statistics/$', views.StatisticsView.as_view()),
+    url(r'^budget/statistics/budget$', views.StatisticsView.as_view()),
+
+
 ]

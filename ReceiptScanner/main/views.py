@@ -73,7 +73,10 @@ class BudgetView(TemplateView):
         itemsList.append(item)
 
     #Get current monthly budget
-    currentBudget = BudgetPeriod.objects.filter(user = currentUser, start_date__month = currentMonth)[0]
+    budgets = BudgetPeriod.objects.filter(user = currentUser, start_date__month = currentMonth)
+    currentBudget = 0
+    if budgets.count() > 0:
+      currentBudget = budgets[0]
     spendingLimit = currentBudget.spending_limit
     print spendingLimit
 
@@ -90,5 +93,53 @@ class BudgetView(TemplateView):
   @method_decorator(login_required)
   def get(self, request):
     return render(request, "main/budget.html", self.get_context_data())
+
+class StatisticsView(TemplateView):
+
+  def get_context_data(self, **kwargs):
+    context = super(StatisticsView, self).get_context_data(**kwargs)
+    
+    currentUser = self.request.user
+    receipts = Receipt.objects.all().filter(user = currentUser)
+    totalSpending = 0
+    totalItemsBought = 0
+
+    for receipt in receipts:
+      items = receipt.receiptitem_set.all()
+      for item in items: 
+        totalItemsBought += 1
+        totalSpending += item.price
+
+    numberOfMonths = BudgetPeriod.objects.all().count()
+    averageSpending = totalSpending / numberOfMonths
+    averageItemsBought = totalItemsBought / numberOfMonths
+
+    stores = Store.objects.all()
+    mostFrequentStore = None
+    frequency = 0
+
+    for store in store:
+      currentFrequency = store.receipt_set.all().count()
+      if frequency < currentFrequency:
+        frequency = currentFrequency
+        mostFrequentStore = store
+
+    context["totalSpending"] = totalSpending
+    context["totalItemsBought"] = totalItemsBought
+    context["averageSpending"] = averageSpending
+    context["averageItemsBought"] = averageItemsBought
+    context["mostFrequentStore"] = mostFrequentStore
+
+    return context
+
+
+  @method_decorator(login_required)
+  def get(self, request):
+    return render(request, "main/statistics.html")
+
+
+
+
+
 
 
