@@ -1,6 +1,7 @@
 from rest_framework import serializers
+from main.models import Receipt
 
-class CommentSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    content = serializers.CharField(max_length=200)
-    created = serializers.DateTimeField()
+class ReceiptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Receipt
+        fields = ('user', 'date', 'description', 'store')

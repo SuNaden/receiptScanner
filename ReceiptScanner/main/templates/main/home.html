@@ -10,8 +10,44 @@
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   <img src="{% static "main/img/hue2.jpg" %}">
-  <h2 class="sub-header">My past shoppings</h2>
+  <h2 class="sub-header">Lifetime receipt history</h2>
   <div class="table-responsive">
+  {% for receipt in receipts %}
+  <div class="modal fade" id="{{ receipt.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ receipt.id }}Label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="{{ receipt.id }}Label">{{ receipt.description }}</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+                <th>Delete Item</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in receipt.receiptitem_set.all %}
+                <tr>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.price|floatformat:2 }}</td>
+                  <td><a type="button" class="btn btn-danger" href="/main/delete/receipt/{{ receipt.id }}">Delete</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
     <table class="table table-striped">
       <thead>
         <tr>
@@ -29,8 +65,8 @@
           <td>{{ receipt.date }}</td>
           <td>{{ receipt.description }}</td>
           <td><a href="store">{{ receipt.store }}</a></td>
-          <td>GBP {{ receipt.total }}</td>
-          <td><a href="item"><button type="button" class="btn btn-success">View Details</button></a></td>
+          <td>GBP {{ receipt.total|floatformat:2 }}</td>
+          <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ receipt.id }}">View Details</button></td>
           <td><button type="button" class="btn btn-danger">Delete</button></td>
         </tr>
         {% endfor %}
@@ -45,9 +81,10 @@
   var pusher = new Pusher("0eb2780d9a8a875c0727"); 
   var channel = pusher.subscribe('receipt_channel'); 
   channel.bind('new_receipt', function(data) {
-    location.reload();
-  }  
-});
+    if (data.username == "{{ request.user.username }}") {
+      location.reload();
+    }
+  });  
  </script>
 
 

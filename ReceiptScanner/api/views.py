@@ -43,20 +43,24 @@ class Upload(views.APIView):
     print(names_split)
     print(prices_split)
 
-    non_decimal = re.compile(r'[^\d.]+')
+    names_split = [x for x in names_split if x != '']
+    prices_split = [x for x in prices_split if x != '']
+
+    print(names_split)
+    print(prices_split)
 
     for i in range(0, len(names_split)):
       name = names_split[i]
 
-      if (len(name) > 0):
-        price = prices_split[i]
+      price = prices_split[i]
+      strippedPrice = ''.join([c for c in price if c in '1234567890.'])
 
-        new_receipt.receiptitem_set.create(
-          name = name,
-          price = Decimal(non_decimal.sub('', price))
-        )
+      new_receipt.receiptitem_set.create(
+        name = name,
+        price = Decimal(strippedPrice),
+      )
 
-        pusher.trigger(u'receipt_channel', u'new_receipt', { "test": "testdata" })
+      pusher.trigger(u'receipt_channel', u'new_receipt', { "username": username })
 
     return Response(status=204)
 

@@ -5,11 +5,14 @@ class BudgetPeriod(models.Model):
   user = models.ForeignKey(User)
   start_date = models.DateTimeField()
   end_date = models.DateTimeField()
-  spending_limit = models.DecimalField(max_digits=20, decimal_places=10)
+  spending_limit = models.DecimalField(max_digits=20, decimal_places=2)
 
 class Store(models.Model):
   name = models.CharField(max_length=255)
   location = models.CharField(max_length=255)
+
+  def __str__(self):
+    return self.name
 
 class Receipt(models.Model):
   user = models.ForeignKey(User)
@@ -18,11 +21,14 @@ class Receipt(models.Model):
   date = models.DateTimeField(auto_now_add=True)
   description = models.CharField(max_length=255)
   store = models.ForeignKey(Store, null=True, blank=True)
+
   def total(self):
     totalSpending = 0
     items = self.receiptitem_set.all()
+
     for item in items: 
       totalSpending += item.price
+
     return totalSpending
 
 class Category(models.Model):

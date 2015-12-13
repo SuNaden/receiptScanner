@@ -6,37 +6,31 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li><a href="#">History <span class="sr-only">(current)</span></a></li>
-        <li><a href="budget">Budget</a></li>
-        <li class="active"><a href="#">Statistics</a></li>
-      </ul>
-    </div>
+
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="width:60%;">
       <h1 class="sub-padding">Lifetime statistics</h1>
       <div class="col-md-4">
-      <h2 style="text-align:left;font-size:60px;padding-top:30px;">Milk</h2>
+      <h2 style="text-align:left;font-size:60px;padding-top:30px;">TODO</h2>
       <h2 style="text-align:left;font-size:16px;color:gray;font-weight:300;">Most frequently bought item</h2>
       </div>
       <div class="col-md-4">
-      <h2 style="text-align:center;font-size:60px;padding-top:30px;">Asda</h2>
+      <h2 style="text-align:center;font-size:60px;padding-top:30px;">{{ mostFrequentStore }}</h2>
       <h2 style="text-align:center;font-size:16px;color:gray;font-weight:300;">Most frequently visited shop</h2>
       </div>
       <div class="col-md-4 numwrapper">
-      <h2 style="text-align:right;font-size:60px;padding-top:30px;">£328</h2>
+      <h2 style="text-align:right;font-size:60px;padding-top:30px;">£{{ averageSpending|floatformat:2 }}</h2>
       <h2 style="text-align:right;font-size:16px;color:gray;font-weight:300;">Average monthly spending</h2>
       </div>
       <div class="col-md-4">
-      <h2 style="text-align:left;font-size:60px;padding-top:30px;">114</h2>
+      <h2 style="text-align:left;font-size:60px;padding-top:30px;">{{ averageItemsBought|floatformat:2 }}</h2>
       <h2 style="text-align:left;font-size:16px;color:gray;font-weight:300;">Average items bought monthly</h2>
       </div>
       <div class="col-md-4">
-      <h2 style="text-align:center;font-size:60px;padding-top:30px;">£9280</h2>
+      <h2 style="text-align:center;font-size:60px;padding-top:30px;">£{{ totalSpending|floatformat:2 }}</h2>
       <h2 style="text-align:center;font-size:16px;color:gray;font-weight:300;">Total spending</h2>
       </div>
       <div class="col-md-4 numwrapper">
-      <h2 style="text-align:right;font-size:60px;padding-top:30px;">27115</h2>
+      <h2 style="text-align:right;font-size:60px;padding-top:30px;">{{ totalItemsBought }}</h2>
       <h2 style="text-align:right;font-size:16px;color:gray;font-weight:300;">Total items bought</h2>
       </div>
       </div>

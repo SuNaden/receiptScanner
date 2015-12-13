@@ -4,85 +4,107 @@
 
 {% block content %}
 
-<div class="container-fluid ">
-  <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li><a href="base">History <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="budget">Budget</a></li>
-        <li><a href="statistics">Statistics</a></li>
-      </ul>
-    </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h1 class="sub-padding">Budget for December  <a href="base" class="hey">view previous months</a></h1>
-      <div class="col-md-4">
-      <h2 style="text-align:left;font-size:60px;padding-top:30px;">26</h2>
-      <h2 style="text-align:left;font-size:16px;color:gray;font-weight:300;">number of shoppings this month</h2>
-      </div>
-      <div class="col-md-4">
-      <h2 style="text-align:center;font-size:60px;padding-top:30px;">£380</h2>
-      <h2 style="text-align:center;font-size:16px;color:gray;font-weight:300;">is left from your monthly budget of £560</h2>
-      </div>
-      <div class="col-md-4 numwrapper">
-      <h2 style="text-align:right;font-size:60px;padding-top:30px;">426</h2>
-      <h2 style="text-align:right;font-size:16px;color:gray;font-weight:300;">total items bought this month</h2>
-      </div>
-      <div>
-        <div style="display:inline-block;">
-          <p><b>£0</b></p>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <h1 class="sub-padding" >Budget for December</h1>
+  <br />
+
+  <br />
+  <div class="col-md-12">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <a href="#" type="button" class="btn btn-primary col-sm-2" class="form-control">Change budget</a>
+        <div class="col-sm-2">
+          <input type="text" placeholder="New budget" class="form-control" />
         </div>
-        <div style="float:right;">
-          <p><b>£560</b></p>
-        </div>
-      </div>
-      <div class="progress budget-bar col-md-12" style="display:inline-block; margin-bottom:60px;">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 67%;">
-          <span class="sr-only">67% Complete</span>
-        </div>
-      </div>
-      <h3>Monthly shopping</h3>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Store</th>
-              <th>Total</th>
-              <th>View</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>11.12.2015 at 9:46PM</td>
-              <td>Food Shopping</td>
-              <td><a href="store">Tesco Express North Acton</a></td>
-              <td>GBP 14.50</td>
-              <td><a href="item"><button type="button" class="btn btn-success">View Details</button></a></td>
-              <td><button type="button" class="btn btn-danger">Delete</button></td>
-            </tr>
-            <tr>
-              <td>08.11.2015 at 11:15AM</td>
-              <td>Bought some Shoes</td>
-              <td><a href="">Westfield New Look</a></td>
-              <td>GBP 52.00</td>
-              <td><button type="button" class="btn btn-success">View Details</button></td>
-              <td><button type="button" class="btn btn-danger">Delete</button></td>
-            </tr>
-            <tr>
-              <td>04.10.2013 at 01:47PM</td>
-              <td>Doge, much wow</td>
-              <td><a href="">Kings College</a></td>
-              <td>GBP 1336.00</td>
-              <td><button type="button" class="btn btn-success">View Details</button></td>
-              <td><button type="button" class="btn btn-danger">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
+
+  <div class="col-md-4">
+    <h2 style="text-align:left;font-size:60px;padding-top:30px;">{{ receipts|length }}</h2>
+    <h2 style="text-align:left;font-size:16px;color:gray;font-weight:300;">number of shoppings this month</h2>
+  </div>
+  <div class="col-md-4">
+    <h2 style="text-align:center;font-size:60px;padding-top:30px;">£{{ leftBudget|floatformat:2 }}</h2>
+    <h2 style="text-align:center;font-size:16px;color:gray;font-weight:300;">is left from your monthly budget of £{{ spendingLimit|floatformat:2 }}</h2>
+  </div>
+  <div class="col-md-4 numwrapper">
+    <h2 style="text-align:right;font-size:60px;padding-top:30px;">{{ items|length }}</h2>
+    <h2 style="text-align:right;font-size:16px;color:gray;font-weight:300;">total items bought this month</h2>
+  </div>
+
+  <div class="progress budget-bar col-md-12" style="display:inline-block; margin-bottom:60px;">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentage }}%;">
+    </div>
+    <p>  {{ percentage|floatformat:0 }}%</p>
+  </div>
+
+  <div class="col-md-12">
+    <h3>Monthly shopping</h3>
+  <div class="table-responsive">
+  {% for receipt in receipts %}
+  <div class="modal fade" id="{{ receipt.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ receipt.id }}Label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="{{ receipt.id }}Label">{{ receipt.description }}</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+                <th>Delete Item</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in receipt.receiptitem_set.all %}
+                <tr>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.price|floatformat:2 }}</td>
+                  <td><a type="button" class="btn btn-danger" href="/main/delete/receipt/{{ receipt.id }}">Delete</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Store</th>
+          <th>Total</th>
+          <th>View</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for receipt in receipts %}
+        <tr>
+          <td>{{ receipt.date }}</td>
+          <td>{{ receipt.description }}</td>
+          <td><a href="store">{{ receipt.store }}</a></td>
+          <td>GBP {{ receipt.total|floatformat:2 }}</td>
+          <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ receipt.id }}">View Details</button></td>
+          <td><button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  </div>
 </div>
+
 
 {% endblock %}

@@ -1,30 +1,24 @@
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic.base import TemplateView, RedirectView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from main.forms import RegisterForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 import datetime
-from api.models import Receipt
+from api.models import Receipt, Store
 from api.models import BudgetPeriod
 
-
-
-
-
-class Home(TemplateView):
-  template_name = "main/home.html"
-  
-  @method_decorator(login_required)
-  def get(self, request):
-    return render(request, self.template_name)
-
+class DeleteReceipt(RedirectView):
+  def get_redirect_url(self, *args, **kwargs):
+    receipt = get_object_or_404(Receipt, pk=kwargs['id'])
+    receipt.delete()
+    return "/main/home"
 
 class ReceiptsHistory(TemplateView):
 
   def get_context_data(self, **kwargs):
-    context = super(BudgetView, self).get_context_data(**kwargs)
+    context = super(ReceiptsHistory, self).get_context_data(**kwargs)
 
     #Get list of receipts
     currentUser = self.request.user
@@ -35,7 +29,7 @@ class ReceiptsHistory(TemplateView):
   
   @method_decorator(login_required)
   def get(self, request):
-    return render(request, "main/budget.html", self.get_context_data())
+    return render(request, "main/home.html", self.get_context_data())
 
 class RegisterView(TemplateView):
   template_name = "main/register.html"
@@ -89,21 +83,20 @@ class BudgetView(TemplateView):
         itemsList.append(item)
 
     #Get current monthly budget
-    budgets = BudgetPeriod.objects.filter(user = currentUser, start_date__month = currentMonth)
-    currentBudget = 0
-    if budgets.count() > 0:
-      currentBudget = budgets[0]
-    spendingLimit = currentBudget.spending_limit
-    print(spendingLimit)
+    print("Current: " + str(currentMonth))
+    budget = BudgetPeriod.objects.get(user = currentUser, start_date__month = currentMonth)
+    print(str(budget.spending_limit))
 
     #Get left budget
-    leftBudget = spendingLimit - spentBudget
+    leftBudget = budget.spending_limit - spentBudget
+    percentage = (leftBudget / budget.spending_limit) * 100
     
     context["receipts"] = receipts
     context["spentBudget"] = spentBudget
-    context["spendingLimit"] = spendingLimit
+    context["spendingLimit"] = budget.spending_limit
     context["leftBudget"] = leftBudget
     context["items"] = itemsList
+    context["percentage"] = percentage
     return context
   
   @method_decorator(login_required)
@@ -134,7 +127,7 @@ class StatisticsView(TemplateView):
     mostFrequentStore = None
     frequency = 0
 
-    for store in store:
+    for store in stores:
       currentFrequency = store.receipt_set.all().count()
       if frequency < currentFrequency:
         frequency = currentFrequency
@@ -151,7 +144,7 @@ class StatisticsView(TemplateView):
 
   @method_decorator(login_required)
   def get(self, request):
-    return render(request, "main/statistics.html")
+    return render(request, "main/statistics.html", self.get_context_data())
 
 
 
