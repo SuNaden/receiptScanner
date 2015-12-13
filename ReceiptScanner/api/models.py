@@ -18,6 +18,12 @@ class Receipt(models.Model):
   date = models.DateTimeField(auto_now_add=True)
   description = models.CharField(max_length=255)
   store = models.ForeignKey(Store, null=True, blank=True)
+  def total(self):
+    totalSpending = 0
+    items = self.receiptitem_set.all()
+    for item in items: 
+      totalSpending += item.price
+    return totalSpending
 
 class Category(models.Model):
   name = models.CharField(max_length=255)

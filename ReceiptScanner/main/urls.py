@@ -11,7 +11,9 @@ urlpatterns = [
     url(r'^budget/budget$', views.BudgetView.as_view()),
     url(r'^statistics/$', views.StatisticsView.as_view()),
     url(r'^budget/statistics/$', views.StatisticsView.as_view()),
-    url(r'^budget/statistics/budget$', views.StatisticsView.as_view()),
-
+    url(r'^budget/statistics/budget$', views.BudgetView.as_view()),
+    url(r'^history/$', views.Home.as_view()),
+    url(r'^budget/history$', views.Home.as_view()),
+    url(r'^statistics/history$', views.Home.as_view()),
 
 ]
