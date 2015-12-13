@@ -19,7 +19,7 @@ class Category(models.Model):
 class ReceiptItem(models.Model):
   name = models.CharField(max_length=255)
   price = models.DecimalField(max_digits=20, decimal_places=10)
-  category = models.ForeignKey(Category, null=True, blank=True)
+  category = models.ManyToManyField(Category)
   receipt = models.ForeignKey(Receipt)
 
 class BudgetPeriod(models.Model):

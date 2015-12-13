@@ -6,6 +6,10 @@ from rest_framework.response import Response
 from api.models import Receipt
 from decimal import Decimal
 from django.contrib.auth import authenticate
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
+
 
 import subprocess, re
 
@@ -64,5 +68,12 @@ class Login(views.APIView):
     else:
         # the authentication system was unable to verify the username and password
         return Response(status = 401)
+
+class Budget(views.APIView):
+  
+  @method_decorator(login_required)
+  def get(self, request):
+    return render("/main/budget.html")
+
 
   
