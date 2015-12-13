@@ -100,14 +100,6 @@ body {
   margin: 7px;
 }
 
-.budget-bar {
-  height: 25px;
-  margin-top: 5px;
-}
-
-.hey {
-  font-size: 20px;
-}
 
 /*
  * Placeholder dashboard ideas
@@ -128,6 +120,4 @@ body {
   border-radius: 50%;
 }
 
-.numwrapper {
-  margin-bottom: 30px;
-}
+

@@ -96,13 +96,12 @@ body {
   padding: 6px;
 }
 
-.btn-margin {
-  margin: 7px;
+.btn-lefttop {
+  float: right;
 }
 
-.budget-bar {
-  height: 25px;
-  margin-top: 5px;
+.btn-margin {
+  margin: 7px;
 }
 
 
@@ -125,6 +124,7 @@ body {
   border-radius: 50%;
 }
 
-.numwrapper {
-  margin-bottom: 30px;
+.sub-padding {
+  margin-bottom: 15px;
 }
+
