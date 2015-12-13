@@ -21,6 +21,22 @@ class Home(TemplateView):
     return render(request, self.template_name)
 
 
+class ReceiptsHistory(TemplateView):
+
+  def get_context_data(self, **kwargs):
+    context = super(BudgetView, self).get_context_data(**kwargs)
+
+    #Get list of receipts
+    currentUser = self.request.user
+    receipts = Receipt.objects.filter(user = currentUser)
+
+    context["receipts"] = receipts
+    return context
+  
+  @method_decorator(login_required)
+  def get(self, request):
+    return render(request, "main/budget.html", self.get_context_data())
+
 class RegisterView(TemplateView):
   template_name = "main/register.html"
   page_title = "Register"
@@ -75,7 +91,7 @@ class BudgetView(TemplateView):
     #Get current monthly budget
     currentBudget = BudgetPeriod.objects.filter(user = currentUser, start_date__month = currentMonth)[0]
     spendingLimit = currentBudget.spending_limit
-    print spendingLimit
+    print(spendingLimit)
 
     #Get left budget
     leftBudget = spendingLimit - spentBudget

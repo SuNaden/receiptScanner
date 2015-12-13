@@ -24,30 +24,16 @@
         </tr>
       </thead>
       <tbody>
+        {% for receipt in receipts %}
         <tr>
-          <td>11.12.2015 at 9:46PM</td>
-          <td>Food Shopping</td>
-          <td><a href="store">Tesco Express North Acton</a></td>
-          <td>GBP 14.50</td>
+          <td>{{ receipt.date }}</td>
+          <td>{{ receipt.description }}</td>
+          <td><a href="store">{{ receipt.store }}</a></td>
+          <td>GBP {{ receipt.total }}</td>
           <td><a href="item"><button type="button" class="btn btn-success">View Details</button></a></td>
           <td><button type="button" class="btn btn-danger">Delete</button></td>
         </tr>
-        <tr>
-          <td>08.11.2015 at 11:15AM</td>
-          <td>Bought some Shoes</td>
-          <td><a href="">Westfield New Look</a></td>
-          <td>GBP 52.00</td>
-          <td><button type="button" class="btn btn-success">View Details</button></td>
-          <td><button type="button" class="btn btn-danger">Delete</button></td>
-        </tr>
-        <tr>
-          <td>04.10.2013 at 01:47PM</td>
-          <td>Doge, much wow</td>
-          <td><a href="">Kings College</a></td>
-          <td>GBP 1336.00</td>
-          <td><button type="button" class="btn btn-success">View Details</button></td>
-          <td><button type="button" class="btn btn-danger">Delete</button></td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
@@ -59,7 +45,8 @@
   var pusher = new Pusher("0eb2780d9a8a875c0727"); 
   var channel = pusher.subscribe('receipt_channel'); 
   channel.bind('new_receipt', function(data) {
-    alert(data); 
+    location.reload();
+  }  
 });
  </script>
 
